@@ -141,11 +141,12 @@ h1,h2,h3{
 """, unsafe_allow_html=True)
 
 # =========================================
-# 📂 모델 로딩
+# 📂 모델 로딩 (수정 완료: 대소문자 매칭)
 # =========================================
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-model_path = os.path.join(current_dir, "diabetes_model.pkl")
+# 깃허브 파일명(Diabetes_model.pkl)과 정확히 일치하도록 대문자 D로 수정했습니다.
+model_path = os.path.join(current_dir, "Diabetes_model.pkl")
 scaler_path = os.path.join(current_dir, "diabetes_scaler.pkl")
 
 FEATURE_COLUMNS = [
@@ -164,14 +165,10 @@ FEATURE_COLUMNS = [
 ]
 
 try:
-
     scaler = joblib.load(scaler_path)
     model = joblib.load(model_path)
-
     st.toast("⚖️ 재판관 입장 완료", icon="🔔")
-
 except Exception as e:
-
     st.error(f"재판 준비 실패: {e}")
     st.stop()
 
@@ -201,44 +198,36 @@ st.subheader("📜 피고인 기록")
 col1, col2 = st.columns(2)
 
 with col1:
-
     preg = st.number_input(
         "임신 횟수",
         0, 20, 1
     )
-
     glucose = st.number_input(
         "혈당 수치",
         0, 300, 120
     )
-
     bp = st.number_input(
         "혈압",
         0, 200, 70
     )
-
     skin = st.number_input(
         "피부두께",
         0, 100, 20
     )
 
 with col2:
-
     insulin = st.number_input(
         "인슐린 수치",
         0, 900, 80
     )
-
     bmi = st.number_input(
         "BMI",
         0.0, 70.0, 30.0
     )
-
     dpf = st.number_input(
         "당뇨내력",
         0.0, 3.0, 0.4
     )
-
     age = st.number_input(
         "나이",
         0, 120, 30
@@ -294,11 +283,8 @@ if st.button("⚖️ 판결 선고"):
     input_df = input_df[FEATURE_COLUMNS]
 
     try:
-
         scaled_data = scaler.transform(input_df)
-
         prediction = model.predict(scaled_data)[0]
-
         probability = (
             model.predict_proba(scaled_data)[0][1]
             * 100
@@ -310,7 +296,6 @@ if st.button("⚖️ 판결 선고"):
         # 🚨 유죄 판결
         # =====================================
         if prediction == 1:
-
             st.markdown(f"""
             <div class="verdict-guilty blink">
 
@@ -346,7 +331,6 @@ if st.button("⚖️ 판결 선고"):
         # 🌿 정상 판결
         # =====================================
         else:
-
             st.markdown(f"""
             <div class="verdict-safe">
 
@@ -377,7 +361,6 @@ if st.button("⚖️ 판결 선고"):
             """, unsafe_allow_html=True)
 
     except Exception as e:
-
         st.error(f"""
 ⚠️ 재판 진행 중 오류 발생
 
